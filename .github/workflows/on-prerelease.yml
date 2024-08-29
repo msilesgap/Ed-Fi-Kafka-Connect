@@ -48,6 +48,7 @@ jobs:
       - name: Publish .NET Assemblies
         run: |
           $packageVersion = "${{ steps.versions.outputs.dms-semver }}"
+          gradle init
           gradle installDist --no-daemon
 
       #./build.ps1 -Command BuildAndPublish `
