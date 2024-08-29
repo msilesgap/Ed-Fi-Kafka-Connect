@@ -15,7 +15,7 @@ env:
   #ARTIFACTS_FEED_URL: "https://pkgs.dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging/EdFi/nuget/v3/index.json"
   #VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: '{"endpointCredentials": [{"endpoint": "https://pkgs.dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging/EdFi/nuget/v3/index.json","password": "${{ secrets.AZURE_ARTIFACTS_PERSONAL_ACCESS_TOKEN }}"}]}'
   MANIFEST_FILE: "_manifest/spdx_2.2/manifest.spdx.json"
-  PACKAGE_NAME: "EdFi.KafkaConnect"
+  PACKAGE_NAME: "ed-fi-kafka-connect-transforms"
   #IMAGE_NAME: ${{ vars.IMAGE_NAME }}
   #DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
   #DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -45,11 +45,13 @@ jobs:
           Import-Module ./package-helpers.psm1
           Get-VersionNumber
 
-      - name: Publish .NET Assemblies
+      - name: Publish Jar Package
         run: |
           $packageVersion = "${{ steps.versions.outputs.dms-semver }}"
-          gradle init
-          gradle installDist --no-daemon
+          pwd
+          ls  
+        #gradle init
+        #gradle installDist --no-daemon
 
       #./build.ps1 -Command BuildAndPublish `
       #        -Configuration Release `
