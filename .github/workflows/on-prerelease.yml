@@ -46,11 +46,11 @@ jobs:
           Get-VersionNumber
 
       - name: Publish Jar Package
+        working-directory: ./kafka 
         run: |
           $packageVersion = "${{ steps.versions.outputs.dms-semver }}"
           pwd
-          ls
-          working-directory: ./kafka 
+          ls          
           gradle init
           gradle installDist --no-daemon
 
