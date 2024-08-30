@@ -49,9 +49,10 @@ jobs:
         run: |
           $packageVersion = "${{ steps.versions.outputs.dms-semver }}"
           pwd
-          ls  
-        #gradle init
-        #gradle installDist --no-daemon
+          ls
+          working-directory: ./kafka 
+          gradle init
+          gradle installDist --no-daemon
 
       #./build.ps1 -Command BuildAndPublish `
       #        -Configuration Release `
