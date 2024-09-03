@@ -54,7 +54,7 @@ jobs:
           $packageVersion = "${{ steps.versions.outputs.dms-semver }}"
           pwd
           ls          
-          gradle init
+          ./gradlew clean build    
       #gradle installDist --no-daemon
 
       #./build.ps1 -Command BuildAndPublish `
