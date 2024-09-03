@@ -95,7 +95,9 @@ jobs:
         uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
         with:
           #name: "${{ env.PACKAGE_NAME }}"
-          name: "ed-fi-kafka-connect-transforms-"
-          path: ${{ github.workspace }}/*.jar
+          #name: "ed-fi-kafka-connect-transforms-"
+          name: "Package"
+          #path: ${{ github.workspace }}/*.jar
+          path: ./kafka/ed-fi-kafka-connect-transforms/build/libs
           if-no-files-found: error
           retention-days: 30
