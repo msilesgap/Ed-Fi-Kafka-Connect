@@ -40,8 +40,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set Version Numbers
+      - name: Set Version Numbers      
         id: versions
+        working-directory: ./
         run: |
           Import-Module ./package-helpers.psm1
           Get-VersionNumber
