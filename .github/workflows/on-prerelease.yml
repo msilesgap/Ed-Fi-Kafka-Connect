@@ -121,7 +121,7 @@ jobs:
         uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 #v4.1.1
         with:
           #name: ${{ env.PACKAGE_NAME }}
-          name: Package.zip
+          name: ${{ env.PACKAGE_NAME }}
 
       - name: Gen SBOM
         uses: advanced-security/generate-sbom-action@v1
