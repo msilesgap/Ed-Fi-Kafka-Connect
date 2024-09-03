@@ -96,7 +96,7 @@ jobs:
         with:
           name: ${{ env.PACKAGE_NAME }}
           #name: "ed-fi-kafka-connect-transforms-"
-          path: ${{ github.workspace }}/*.jar
+          path: ${{ github.workspace }}/kafka/ed-fi-kafka-connect-transforms/build/libs/*.jar
           #path: ./kafka/ed-fi-kafka-connect-transforms/build/libs
           if-no-files-found: error
           retention-days: 30
