@@ -55,7 +55,7 @@ jobs:
           pwd
           ls          
           gradle init
-          gradle installDist --no-daemon
+      #gradle installDist --no-daemon
 
       #./build.ps1 -Command BuildAndPublish `
       #        -Configuration Release `
