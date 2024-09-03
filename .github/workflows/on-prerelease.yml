@@ -30,6 +30,7 @@ jobs:
     defaults:
       run:
         shell: pwsh
+        working-directory: kafka/ed-fi-kafka-connect-transforms
     outputs:
       hash-code: ${{ steps.hash-code.outputs.hash-code }}
       dms-version: ${{ steps.versions.outputs.dms-v }}
