@@ -62,13 +62,14 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew   
 
-      - name: Publish Jar Package
-        working-directory: ./kafka 
-        run: |
-          $packageVersion = "${{ steps.versions.outputs.dms-semver }}"
-          pwd
-          ls          
-          ./gradlew clean build    
+      - name: Build with Gradle
+        run: ./gradlew clean build            
+
+      #- name: Publish Jar Package
+      #  working-directory: ./kafka 
+      #  run: |
+      #    $packageVersion = "${{ steps.versions.outputs.dms-semver }}"      
+      #    ./gradlew clean build    
       #gradle installDist --no-daemon
 
       #./build.ps1 -Command BuildAndPublish `
