@@ -103,7 +103,7 @@ jobs:
         run: |
           ls
           pwd
-          cp ${{ github.workspace }}/kafka/${{ env.MANIFEST_FILE }} .
+          cp ${{ github.workspace }}/${{ env.MANIFEST_FILE }} .
 
       - name: Generate hash code for SBOM
         id: sbom-hash-code
