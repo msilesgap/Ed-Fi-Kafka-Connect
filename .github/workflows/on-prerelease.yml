@@ -100,6 +100,8 @@ jobs:
       
       - name: Copy the SBOM File
         run: |
+          ls
+          pwd
           cp ${{ github.workspace }}/kafka/${{ env.MANIFEST_FILE }} .
 
       - name: Generate hash code for SBOM
