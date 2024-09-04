@@ -97,6 +97,10 @@ jobs:
           output-file: 'sbom.spdx.json'
           upload-release-assets: true
           upload-artifact: true
+      
+      - name: Copy the SBOM File
+        run: |
+          cp ${{ env.MANIFEST_FILE }} .
 
       - name: Generate hash code for SBOM
         id: sbom-hash-code
