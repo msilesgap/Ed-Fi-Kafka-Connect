@@ -99,11 +99,11 @@ jobs:
           upload-release-assets: true
           upload-artifact: true
       
-      - name: Copy the SBOM File
-        run: |
-          ls
-          pwd
-          cp ${{ github.workspace }}/${{ env.MANIFEST_FILE }} .
+      #- name: Copy the SBOM File
+      #  run: |
+      #    ls
+      #    pwd
+      #    cp ${{ github.workspace }}/${{ env.MANIFEST_FILE }} .
 
       - name: Generate hash code for SBOM
         id: sbom-hash-code
