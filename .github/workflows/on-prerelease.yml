@@ -131,7 +131,7 @@ jobs:
       - name: Attest
         uses: actions/attest-sbom@v1
         with:
-          subject-path: '${{ github.workspace }}/${{ env.PACKAGE_NAME }}'
+          subject-path: '${{ github.workspace }}/kafka/${{ env.PACKAGE_NAME }}'
           sbom-path: 'sbom.spdx.json'
 
           
