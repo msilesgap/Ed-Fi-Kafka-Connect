@@ -138,14 +138,12 @@ jobs:
           ls
           pwd
           echo ${{ needs.sbom-create.outputs.sbom-hash-code }}
-          echo $sbom_hash
-          echo $sbom-hash-code
 
 
       - name: Download the SBOM
         uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/actions/secure-download-artifact@main
         with:
-          name: "${{ env.PACKAGE_NAME }}"
+          name: "${{ env.PACKAGE_NAME }}-SBOM"
           path: ${{ env.MANIFEST_FILE }}
           sha256: "${{ needs.sbom-create.outputs.sbom-hash-code }}"
 
