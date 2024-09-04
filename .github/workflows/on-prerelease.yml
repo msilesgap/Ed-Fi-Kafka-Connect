@@ -103,17 +103,17 @@ jobs:
           subject-path: '${{ github.workspace }}/kafka/${{ env.PACKAGE_NAME }}'
           sbom-path: 'sbom.spdx.json'
           
-  provenance-create:
-    name: Create Provenance
-    needs: pack
-    permissions:
-      actions: read
-      id-token: write
-      contents: write
-    uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@main
-    with:
-      base64-subjects: ${{ needs.pack.outputs.hash-code }}
-      provenance-name: dmsApi.intoto.jsonl
-      upload-assets: true
+  #provenance-create:
+  #  name: Create Provenance
+  #  needs: pack
+  #  permissions:
+  #    actions: read
+  #    id-token: write
+  #    contents: write
+  #  uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@main
+  #  with:
+  #    base64-subjects: ${{ needs.pack.outputs.hash-code }}
+  #    provenance-name: dmsApi.intoto.jsonl
+  #    upload-assets: true
       # TODO: remove this after this issue is resolved: https://github.com/slsa-framework/slsa-github-generator/issues/876
-      compile-generator: true    
+  #    compile-generator: true    
