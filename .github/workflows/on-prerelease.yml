@@ -127,11 +127,11 @@ jobs:
         with:
           format: 'spdx-json'
           output-file: 'sbom.spdx.json'
-      #- name: Attest
-      #  uses: actions/attest-sbom@v1
-      #  with:
-      #    subject-path: '${{ github.workspace }}/my-app'
-      #    sbom-path: 'sbom.spdx.json'
+      - name: Attest
+        uses: actions/attest-sbom@v1
+        with:
+          subject-path: '${{ github.workspace }}/${{ env.PACKAGE_NAME }}'
+          sbom-path: 'sbom.spdx.json'
 
           
 
