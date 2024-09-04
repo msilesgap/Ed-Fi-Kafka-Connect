@@ -112,6 +112,7 @@ jobs:
       actions: read
       contents: write
       attestations: write
+      id-token: write
     outputs:
       sbom-hash-code: ${{ steps.sbom-hash-code.outputs.sbom-hash-code }}
     steps:
