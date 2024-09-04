@@ -126,7 +126,7 @@ jobs:
       - name: Download the SBOM
         uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/actions/secure-download-artifact@main
         with:
-          name: "${{ env.PACKAGE_NAME }}-SBOM"
+          name: "${{ env.PACKAGE_NAME }}"
           path: ${{ env.MANIFEST_FILE }}
           sha256: "${{ needs.sbom-create.outputs.sbom-hash-code }}"
 
@@ -137,7 +137,7 @@ jobs:
           $repo = "${{ github.repository }}"
           $token = "${{ secrets.GITHUB_TOKEN }}"
           $file = "${{ env.MANIFEST_FILE }}"
-          $uploadName = "${{ env.PACKAGE_NAME }}-SBOM.zip"
+          $uploadName = "${{ env.PACKAGE_NAME }}.zip"
 
           $url = "https://api.github.com/repos/$repo/releases/tags/$release"
 
