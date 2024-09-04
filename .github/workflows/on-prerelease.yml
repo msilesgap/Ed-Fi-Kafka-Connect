@@ -11,14 +11,8 @@ on:
   workflow_dispatch:
 
 env:
-  #ARTIFACTS_API_KEY: ${{ secrets.AZURE_ARTIFACTS_PERSONAL_ACCESS_TOKEN }}
-  #ARTIFACTS_FEED_URL: "https://pkgs.dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging/EdFi/nuget/v3/index.json"
-  #VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: '{"endpointCredentials": [{"endpoint": "https://pkgs.dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging/EdFi/nuget/v3/index.json","password": "${{ secrets.AZURE_ARTIFACTS_PERSONAL_ACCESS_TOKEN }}"}]}'
   MANIFEST_FILE: "_manifest/spdx_2.2/manifest.spdx.json"
   PACKAGE_NAME: "ed-fi-kafka-connect-transforms"
-  #IMAGE_NAME: ${{ vars.IMAGE_NAME }}
-  #DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
-  #DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
   REF: ${{ github.ref_name }}
 
 permissions: read-all
@@ -65,39 +59,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build            
 
-      #- name: Publish Jar Package
-      #  working-directory: ./kafka 
-      #  run: |
-      #    $packageVersion = "${{ steps.versions.outputs.dms-semver }}"      
-      #    ./gradlew clean build    
-      #gradle installDist --no-daemon
-
-      #./build.ps1 -Command BuildAndPublish `
-      #        -Configuration Release `
-      #        -DMSVersion $packageVersion
-
-      #NOT Need it, review if war is required
-      #- name: Create NuGet Package
-      #  run: |
-      #    $packageVersion = "${{ steps.versions.outputs.dms-semver }}"
-
-          #./build.ps1 -Command Package `
-           #   -DMSVersion $packageVersion `
-            #  -Configuration Release
-
-      #- name: Generate hash for NuGet package
-      #  id: hash-code
-      #  run: |
-      #    "hash-code=$(sha256sum *.nupkg | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
       - name: Upload Packages as Artifacts
         if: success()
         uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
         with:
           name: ${{ env.PACKAGE_NAME }}
-          #name: "ed-fi-kafka-connect-transforms-"
           path: ${{ github.workspace }}/kafka/ed-fi-kafka-connect-transforms/build/libs/*.jar
-          #path: ./kafka/ed-fi-kafka-connect-transforms/build/libs
           if-no-files-found: error
           retention-days: 30
 
@@ -128,36 +95,25 @@ jobs:
         with:
           format: 'spdx-json'
           output-file: 'sbom.spdx.json'
+          upload-release-assets: true
+
       - name: Attest
         uses: actions/attest-sbom@v1
         with:
           subject-path: '${{ github.workspace }}/kafka/${{ env.PACKAGE_NAME }}'
           sbom-path: 'sbom.spdx.json'
-
           
-
-      #- uses: actions/attest-sbom@v1
-      #  with:
-      #    subject-path: ${{ env.PACKAGE_NAME }}
-      #    sbom-path: '<PATH TO SBOM>'
-
-      #- name: Gen SBOM
-      #  uses: advanced-security/generate-sbom-action@v1
-      #  id: gensbom
-
-      #- name: Upload SBOM
-      #  if: success()
-      #  uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
-      #  with:
-      #    name: ${{ env.PACKAGE_NAME }}-SBOM
-      #    path: ${{ env.MANIFEST_FILE }}
-      #    if-no-files-found: error
-      #    retention-days: 30
-
-      #- name: Generate hash code for SBOM
-      #  id: sbom-hash-code
-      #  shell: bash
-      #  run: |
-      #    # sha256sum returns "<hashcode>  <name of file". Split that and return only the <hashcode>.
-      #    sbom_hash=$(sha256sum ./${{ env.MANIFEST_FILE }} | awk '{split($0,a); print a[1]}')
-      #    echo "sbom-hash-code=$sbom_hash" >> $GITHUB_OUTPUT          
+  provenance-create:
+    name: Create Provenance
+    needs: pack
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@main
+    with:
+      base64-subjects: ${{ needs.pack.outputs.hash-code }}
+      provenance-name: dmsApi.intoto.jsonl
+      upload-assets: true
+      # TODO: remove this after this issue is resolved: https://github.com/slsa-framework/slsa-github-generator/issues/876
+      compile-generator: true    
