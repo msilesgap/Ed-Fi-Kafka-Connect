@@ -96,6 +96,7 @@ jobs:
           format: 'spdx-json'
           output-file: 'sbom.spdx.json'
           upload-release-assets: true
+          upload-artifact: true
 
       - name: Attest
         uses: actions/attest-sbom@v1
