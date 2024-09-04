@@ -124,6 +124,15 @@ jobs:
       actions: read
       contents: write
     steps:
+      - name: Testing Hash Output
+        run: |
+          ls
+          pwd
+          echo ${{ needs.sbom-create.outputs.sbom-hash-code }}
+          echo $sbom_hash
+          echo $sbom-hash-code
+
+
       - name: Download the SBOM
         uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/actions/secure-download-artifact@main
         with:
