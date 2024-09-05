@@ -151,8 +151,11 @@ jobs:
       - name: Download the SBOM
         uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/actions/secure-download-artifact@main
         with:
-          name: "${{ env.PACKAGE_NAME }}-SBOM"
+          #name: "${{ env.PACKAGE_NAME }}-SBOM"
+          #path: ${{ env.MANIFEST_FILE }}
+          name: "${{ env.MANIFEST_FILE }}"
           path: ${{ env.MANIFEST_FILE }}
+          #Ed-Fi-Kafka-Connect-sbom-create.spdx.json 
           sha256: "${{ needs.sbom-create.outputs.sbom-hash-code }}"
 
       - name: Attach to release
