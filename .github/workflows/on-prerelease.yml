@@ -11,7 +11,6 @@ on:
   workflow_dispatch:
 
 env:
-  #MANIFEST_FILE: "Ed-Fi-Kafka-Connect-sbom-create.spdx.json"
   MANIFEST_FILE: "sbom.spdx.json"  
   PACKAGE_NAME: "ed-fi-kafka-connect-transforms"
   REF: ${{ github.ref_name }}
@@ -58,9 +57,11 @@ jobs:
         run: chmod +x ./gradlew   
 
       - name: Build with Gradle
-        run: ./gradlew clean build            
-
-      - name: Generate hash for jar file
+        run: |
+          $packageVersion = "${{ steps.versions.outputs.dms-semver }}"  
+          ./gradlew clean build -Pversion=$packageVersion
+        
+      - name: Generate hash for the jar file
         id: hash-code
         run: |
           "hash-code=$(sha256sum *.nupkg | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -101,8 +102,8 @@ jobs:
         with:
           format: 'spdx-json'
           output-file: 'sbom.spdx.json'
-          upload-release-assets: true
-          upload-artifact: true
+          #upload-release-assets: true
+          #upload-artifact: true
 
       - name: Upload SBOM
         if: success()
