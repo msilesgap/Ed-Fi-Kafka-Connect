@@ -59,12 +59,12 @@ jobs:
       - name: Build with Gradle
         run: |
           $packageVersion = "${{ steps.versions.outputs.dms-semver }}"  
-          ./gradlew clean build -Pversion=$packageVersion
+          ./gradlew clean build -Pversion="${{ steps.versions.outputs.dms-semver }}"  
         
       - name: Generate hash for the jar file
         id: hash-code
         run: |
-          "hash-code=$(sha256sum *.nupkg | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "hash-code=$(sha256sum *.jar | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Upload Packages as Artifacts
         if: success()
