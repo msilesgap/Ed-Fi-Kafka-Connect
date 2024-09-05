@@ -11,7 +11,8 @@ on:
   workflow_dispatch:
 
 env:
-  MANIFEST_FILE: "sbom.spdx.json"  
+  #MANIFEST_FILE: "sbom.spdx.json"
+  MANIFEST_FILE: "Ed-Fi-Kafka-Connect-sbom-create.spdx.json"  
   PACKAGE_NAME: "ed-fi-kafka-connect-transforms"
   REF: ${{ github.ref_name }}
 
