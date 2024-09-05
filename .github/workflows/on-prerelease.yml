@@ -101,18 +101,19 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           format: 'spdx-json'
-          output-file: 'sbom.spdx.json'
-          #upload-release-assets: true
-          #upload-artifact: true
+          output-file: ${{ env.PACKAGE_NAME }}-SBOM
+          #output-file: 'sbom.spdx.json'
+          upload-release-assets: true
+          upload-artifact: true
 
-      - name: Upload SBOM
-        if: success()
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
-        with:
-          name: ${{ env.PACKAGE_NAME }}-SBOM
-          path: ${{ env.MANIFEST_FILE }}
-          if-no-files-found: error
-          retention-days: 30          
+#      - name: Upload SBOM
+#        if: success()
+#        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+#        with:
+#          name: ${{ env.PACKAGE_NAME }}-SBOM
+#          path: ${{ env.MANIFEST_FILE }}
+#          if-no-files-found: error
+#          retention-days: 30          
 
       - name: Generate hash code for SBOM
         id: sbom-hash-code
@@ -180,18 +181,3 @@ jobs:
            -Uri "$($url)?name=$($uploadName)" `
             -Headers $gh_headers `
             -InFile $uploadName
-
-  #provenance-create:
-  #  name: Create Provenance
-  #  needs: pack
-  #  permissions:
-  #    actions: read
-  #    id-token: write
-  #    contents: write
-  #  uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@main
-  #  with:
-  #    base64-subjects: ${{ needs.pack.outputs.hash-code }}
-  #    provenance-name: dmsApi.intoto.jsonl
-  #    upload-assets: true
-      # TODO: remove this after this issue is resolved: https://github.com/slsa-framework/slsa-github-generator/issues/876
-  #    compile-generator: true    
