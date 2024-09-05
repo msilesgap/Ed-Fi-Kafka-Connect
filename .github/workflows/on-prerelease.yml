@@ -129,7 +129,8 @@ jobs:
         uses: actions/attest-sbom@v1
         with:
           subject-path: '${{ github.workspace }}/kafka/${{ env.PACKAGE_NAME }}'
-          sbom-path: 'sbom.spdx.json'
+          #sbom-path: 'sbom.spdx.json'
+          sbom-path: ${{ env.PACKAGE_NAME }}-SBOM          
 
   sbom-attach:
     name: Attach SBOM file
