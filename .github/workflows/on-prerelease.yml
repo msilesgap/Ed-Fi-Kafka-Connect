@@ -109,8 +109,9 @@ jobs:
           upload-artifact: true
 
       - name: Testing hash-code
+        shell: bash
         run: |
-          Write-Output ${{ env.HASH_CODE }}
+          echo ${{ env.HASH_CODE }}
 
       #- name: Generate hash code for SBOM
       #  id: sbom-hash-code
