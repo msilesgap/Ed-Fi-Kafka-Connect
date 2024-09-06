@@ -64,11 +64,9 @@ jobs:
       - name: Generate hash for the jar file
         id: hash-code
         run: |
-          pwd
-          ls        
-          echo "hash-code=$(sha256sum ${{ github.workspace }}/kafka/ed-fi-kafka-connect-transforms/build/libs/*.jar | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append        
+          $jarPath = "${{ github.workspace }}/kafka/ed-fi-kafka-connect-transforms/build/libs/*.jar"
+          hash-code=$(sha256sum $jarPath | base64 -w0) | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           echo $hash-code
-        #echo "hash-code=$(sha256sum *.jar | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Upload Packages as Artifacts
         if: success()
