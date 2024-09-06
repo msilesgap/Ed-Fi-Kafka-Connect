@@ -65,9 +65,7 @@ jobs:
         id: hash-code
         run: |
           $jarPath = "${{ github.workspace }}/kafka/ed-fi-kafka-connect-transforms/build/libs/*.jar"        
-          "HASH_CODE=$(sha256sum $jarPath | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append >> $GITHUB_ENV
-          echo $HASH_CODE
-        #"hash-code=$(sha256sum $jarPath | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "hash-code=$(sha256sum $jarPath | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Upload Packages as Artifacts
         if: success()
@@ -111,7 +109,7 @@ jobs:
       - name: Testing hash-code
         shell: bash
         run: |
-          echo ${{ env.HASH_CODE }}
+          echo ${{ needs.pack.outputs.hash-code }}
 
       #- name: Generate hash code for SBOM
       #  id: sbom-hash-code
