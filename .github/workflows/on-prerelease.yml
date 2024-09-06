@@ -64,9 +64,10 @@ jobs:
       - name: Generate hash for the jar file
         id: hash-code
         run: |
-          $jarPath = "${{ github.workspace }}/kafka/ed-fi-kafka-connect-transforms/build/libs/*.jar"
-          "hash-code=$(sha256sum $jarPath | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          echo $hash-code
+          $jarPath = "${{ github.workspace }}/kafka/ed-fi-kafka-connect-transforms/build/libs/*.jar"        
+          "HASH_CODE=$(sha256sum $jarPath | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append >> $GITHUB_ENV
+          echo $HASH_CODE
+        #"hash-code=$(sha256sum $jarPath | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Upload Packages as Artifacts
         if: success()
@@ -108,10 +109,8 @@ jobs:
           upload-artifact: true
 
       - name: Testing hash-code
-        env:
-          HASH_NUMBER: ${{ needs.pack.outputs.hash-code }}
         run: |
-          echo $HASH_NUMBER
+          echo ${{ env.HASH_CODE }}
 
       #- name: Generate hash code for SBOM
       #  id: sbom-hash-code
@@ -135,7 +134,7 @@ jobs:
     permissions:
       actions: read
       id-token: write
-      contents: write
+      contents: write      
     uses: Ed-Fi-Alliance-OSS/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@main
     with:
       base64-subjects: ${{ needs.pack.outputs.hash-code }}
