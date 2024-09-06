@@ -8,6 +8,7 @@ on:
   release:
     types:
       - prereleased
+  workflow_dispatch:
 
 env:
   MANIFEST_FILE: "Ed-Fi-Kafka-Connect-sbom-create.spdx.json"  
@@ -63,7 +64,8 @@ jobs:
       - name: Generate hash for the jar file
         id: hash-code
         run: |
-          "hash-code=$(sha256sum *.jar | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          echo "hash-code=$(sha256sum *.jar | base64 -w0)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          echo $hash-code
 
       - name: Upload Packages as Artifacts
         if: success()
