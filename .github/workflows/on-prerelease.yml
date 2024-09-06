@@ -110,7 +110,7 @@ jobs:
 
       - name: Testing hash-code
         run: |
-          echo ${{ env.HASH_CODE }}
+          Write-Output ${{ env.HASH_CODE }}
 
       #- name: Generate hash code for SBOM
       #  id: sbom-hash-code
